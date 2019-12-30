@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SafeGarage_Server
+namespace SafeGarage_Server.Services
 {
-    public class ServiceResponse<T> where T : BaseModel
+    public partial class Provider
     {
+
     }
 }

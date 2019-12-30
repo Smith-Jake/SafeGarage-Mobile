@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SafeGarage_Server.Enums;
 using Newtonsoft.Json;
+using SafeGarage_Server.Converters;
 
 namespace SafeGarage_Server.Models
 {
@@ -16,6 +17,7 @@ namespace SafeGarage_Server.Models
         public bool SmokeAlarm { get; set; }
 
         [JsonProperty(PropertyName = "close_time")]
+        [JsonConverter(typeof(TimeConverter))]
         public DateTime CloseTime { get; set; }
 
         [JsonProperty(PropertyName = "state")]

@@ -9,6 +9,6 @@ namespace SafeGarage_Server.Enums
     {
         OPEN = 1,
         CLOSED = 2,
-        TRANSITIONING = 3;
+        TRANSITIONING = 3
     }
 }

@@ -7,5 +7,7 @@ namespace SafeGarage_Server
 {
     public class BaseModel
     {
+        [NonSerialized]
+        public bool DataSuccessful = true;
     }
 }
