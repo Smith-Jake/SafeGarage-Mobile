@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using SafeGarage_Server.Models;
 
-namespace SafeGarage_Server.Services
+namespace SafeGarage_Server.REST
 {
-    public partial class Provider
+    public partial class RESTProvider
     {
-        public static ToggleResult ToggleGarageDoor()
+        private static ToggleResult ToggleGarageDoor()
         {
             ToggleResult result = new ToggleResult();
 

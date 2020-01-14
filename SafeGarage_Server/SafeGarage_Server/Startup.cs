@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using SafeGarage_Server.Services;
+using SafeGarage_Server.REST;
 using Newtonsoft.Json;
+using System.IO;
+using SafeGarage_Server.Socket;
 
 namespace SafeGarage_Server
 {
@@ -28,40 +30,30 @@ namespace SafeGarage_Server
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseWebSockets();
+
             app.Run(async (context) =>
             {
-                string requestedFunc = context.Request.PathBase.Value.Substring(1);
-                
-                Type providerType = typeof(Provider);
-                var methods = providerType.GetMethods();
-
-                MethodInfo func = methods.FirstOrDefault(o => o.Name.Equals(requestedFunc));
-                
-                if (func == null)
-                {
-                    context.Response.StatusCode = 404;
-                    return;
-                }
-
                 try
                 {
-                    BaseModel response = (BaseModel)func.Invoke(null, null);
-
-                    if (!response.DataSuccessful)
+                    if (context.WebSockets.IsWebSocketRequest)
                     {
-                        context.Response.StatusCode = 500;
-                        return;
+                        await ControllerManager.HandleSocketConnection(context);
                     }
-
-                    string json = JsonConvert.SerializeObject(response);
-
-                    await context.Response.WriteAsync(json);
+                    else
+                    {
+                        await RESTProvider.HandleRestCall(context);
+                    }
                 } 
                 catch (TargetInvocationException e)
                 {
                     if (e.InnerException.GetType() == typeof(NotImplementedException))
                     {
                         context.Response.StatusCode = 501;
+                    }
+                    else if (e.InnerException.GetType() == typeof(FileNotFoundException))
+                    {
+                        context.Response.StatusCode = 404;
                     }
                     else
                     {

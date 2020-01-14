@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using SafeGarage_Server.Models;
 
-namespace SafeGarage_Server.Services
+namespace SafeGarage_Server.REST
 {
-    public partial class Provider
+    public partial class RESTProvider
     {
-        public static ControllerStatus GetStatus()
+        private static ControllerStatus GetStatus()
         {
             ControllerStatus result = new ControllerStatus();
             result.CloseTime = DateTime.Now;
