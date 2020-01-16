@@ -5,4 +5,5 @@
     <string name="alarm_fragment">alarm fragment</string>
     <string name="time_fragment">time fragment</string>
     <string name="temperature_fragment">temperature fragment</string>
+    <string name="set_closing_time">Set Closing Time</string>
 </resources>

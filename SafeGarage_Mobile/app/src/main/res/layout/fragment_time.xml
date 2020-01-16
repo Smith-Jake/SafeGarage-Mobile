@@ -5,9 +5,11 @@
     android:layout_height="match_parent"
     tools:context=".fragments.TimeFragment">
 
-    <TextView
+    <TimePicker
+        android:id="@+id/time_picker"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/time_fragment" />
+        android:timePickerMode="clock">
+    </TimePicker>
 
 </ScrollView>
