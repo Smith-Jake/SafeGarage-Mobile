@@ -8,7 +8,7 @@ namespace SafeGarage_Server.REST
 {
     public partial class RESTProvider
     {
-        private static ToggleResult ToggleGarageDoor()
+        public static ToggleResult ToggleGarageDoor()
         {
             ToggleResult result = new ToggleResult();
 

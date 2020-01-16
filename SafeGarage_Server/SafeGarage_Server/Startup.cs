@@ -51,14 +51,14 @@ namespace SafeGarage_Server
                     {
                         context.Response.StatusCode = 501;
                     }
-                    else if (e.InnerException.GetType() == typeof(FileNotFoundException))
-                    {
-                        context.Response.StatusCode = 404;
-                    }
                     else
                     {
                         context.Response.StatusCode = 500;
                     }
+                }
+                catch (FileNotFoundException e)
+                {
+                    context.Response.StatusCode = 404;
                 }
                 /*
                 await context.Response.WriteAsync($"Path: {context.Request.Path}\n\n");

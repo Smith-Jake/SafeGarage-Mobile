@@ -8,7 +8,7 @@ namespace SafeGarage_Server.REST
 {
     public partial class RESTProvider
     {
-        private static ControllerStatus GetStatus()
+        public static ControllerStatus GetStatus()
         {
             ControllerStatus result = new ControllerStatus();
             result.CloseTime = DateTime.Now;

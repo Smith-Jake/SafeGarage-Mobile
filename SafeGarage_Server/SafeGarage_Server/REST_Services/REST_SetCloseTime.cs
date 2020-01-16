@@ -8,7 +8,7 @@ namespace SafeGarage_Server.REST
 {
     public partial class RESTProvider
     {
-        private static SetTimeResult SetCloseTime(DateTime closeTime)
+        public static SetTimeResult SetCloseTime(DateTime closeTime)
         {
             SetTimeResult result = new SetTimeResult();
 
