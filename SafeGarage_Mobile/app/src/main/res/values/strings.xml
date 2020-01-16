@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SafeGarage_Mobile</string>
+    <string name="pair_fragment">pair fragment</string>
+    <string name="door_fragment">door fragment</string>
 </resources>

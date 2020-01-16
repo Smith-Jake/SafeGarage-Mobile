@@ -1,21 +1,30 @@
 package com.quickreports.safegarage_mobile;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
+import android.net.Uri;
 import android.os.Bundle;
 
-import com.quickreports.safegarage_mobile.fragments.MainFragment;
+import com.quickreports.safegarage_mobile.fragments.DoorFragment;
+import com.quickreports.safegarage_mobile.fragments.PairFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity implements PairFragment.OnPairFragmentInteractionListener,
+        DoorFragment.OnDoorFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, MainFragment.newInstance())
-                    .commitNow();
-        }
+
+    }
+
+    @Override
+    public void onDoorFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onPairFragmentInteraction(Uri uri) {
+
     }
 }
