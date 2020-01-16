@@ -56,7 +56,7 @@ namespace SafeGarage_Server
                         context.Response.StatusCode = 500;
                     }
                 }
-                catch (FileNotFoundException e)
+                catch (FileNotFoundException)
                 {
                     context.Response.StatusCode = 404;
                 }
