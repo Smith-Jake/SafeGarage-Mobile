@@ -6,6 +6,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
+using SafeGarage_Server.REST;
+using Newtonsoft.Json;
+using System.IO;
+using SafeGarage_Server.Socket;
 
 namespace SafeGarage_Server
 {
@@ -25,8 +30,37 @@ namespace SafeGarage_Server
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseWebSockets();
+
             app.Run(async (context) =>
             {
+                try
+                {
+                    if (context.WebSockets.IsWebSocketRequest)
+                    {
+                        await ControllerManager.HandleSocketConnection(context);
+                    }
+                    else
+                    {
+                        await RESTProvider.HandleRestCall(context);
+                    }
+                } 
+                catch (TargetInvocationException e)
+                {
+                    if (e.InnerException.GetType() == typeof(NotImplementedException))
+                    {
+                        context.Response.StatusCode = 501;
+                    }
+                    else
+                    {
+                        context.Response.StatusCode = 500;
+                    }
+                }
+                catch (FileNotFoundException)
+                {
+                    context.Response.StatusCode = 404;
+                }
+                /*
                 await context.Response.WriteAsync($"Path: {context.Request.Path}\n\n");
                 await context.Response.WriteAsync($"Parameters\n");
 
@@ -35,6 +69,7 @@ namespace SafeGarage_Server
                     string val = context.Request.Query[key];
                     await context.Response.WriteAsync($"{key}: {val}\n");
                 }
+                */
             });
         }
     }
