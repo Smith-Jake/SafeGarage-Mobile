@@ -1,7 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_container"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity" />
+    android:weightSum="100">
+
+    <LinearLayout
+        android:id="@+id/fragment_container"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="50">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+        </androidx.viewpager.widget.ViewPager>
+
+        <fragment
+            android:id="@+id/pair_fragment"
+            class="com.quickreports.safegarage_mobile.fragments.PairFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+    </LinearLayout>
+
+    <fragment
+        android:id="@+id/door_fragment"
+        class="com.quickreports.safegarage_mobile.fragments.DoorFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="50"/>
+</LinearLayout>
