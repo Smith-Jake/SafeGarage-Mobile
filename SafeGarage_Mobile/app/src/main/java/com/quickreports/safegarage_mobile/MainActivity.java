@@ -9,8 +9,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Pair;
-import android.widget.Toast;
+import android.util.Log;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import com.quickreports.safegarage_mobile.fragments.AlarmFragment;
 import com.quickreports.safegarage_mobile.fragments.DoorFragment;
@@ -73,6 +74,40 @@ public class MainActivity extends FragmentActivity implements PairFragment.OnPai
 
             }
         });
+
+        // set the data for all of the fragements
+        initializeFragments();
+    }
+
+    private void initializeFragments() {
+        if (setupPairFragment()) {
+            Log.i(getClass().toString(), "Initializing fragments");
+            // TODO get all the data from SafeGarage and set the respective fragments
+        } else {
+            // TODO should we try to pair again?
+        }
+    }
+
+    private boolean setupPairFragment() {
+        // set the onCheckChanged event to the Switch
+        final Switch pairUnpairSwitch = findViewById(R.id.pair_switch);
+        pairUnpairSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            // toggle from being paired to unpaired, and visa versa
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // if switch is set to paired, then re-initialize all the fragments
+                    Log.i(getClass().toString(), "Paired to SafeGarage");
+                    initializeFragments();
+                } else {
+                    // TODO should we try to pair again?
+                    // if switch is set to unpaired, then ...
+                    Log.i(getClass().toString(), "Unpaired from SafeGarage");
+                }
+            }
+        });
+
+        return pairUnpairSwitch.isChecked();
     }
 
     @Override

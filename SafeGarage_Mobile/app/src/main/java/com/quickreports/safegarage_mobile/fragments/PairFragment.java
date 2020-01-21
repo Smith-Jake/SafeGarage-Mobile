@@ -55,13 +55,6 @@ public class PairFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_pair, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onPairFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
