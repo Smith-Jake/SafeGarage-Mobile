@@ -1,5 +1,6 @@
 package com.quickreports.safegarage_mobile;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -21,7 +22,7 @@ import com.quickreports.safegarage_mobile.fragments.TimeFragment;
 
 import static com.quickreports.safegarage_mobile.fragments.TimeFragment.newInstance;
 
-public class MainActivity extends FragmentActivity implements PairFragment.OnPairFragmentInteractionListener,
+public class MainActivity extends AppCompatActivity implements PairFragment.OnPairFragmentInteractionListener,
         DoorFragment.OnDoorFragmentInteractionListener, TemperatureFragment.OnTemperatureFragmentInteractionListener,
         AlarmFragment.OnAlarmFragmentInteractionListener, TimeFragment.OnTimeFragmentInteractionListener {
 
