@@ -80,7 +80,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)..\SafeGarage_Firmware;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\avr\include;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\avr\include\avr;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.8.1\include;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.2\include;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ProjectDir)__vm\.SafeGarage_Firmware.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
-      <PreprocessorDefinitions>__AVR_atmega328p__;__AVR_ATmega328P__;__AVR_ATmega328p__;F_CPU=16000000L;ARDUINO=10805;ARDUINO_AVR_UNO_WIFI_DEV_ED;ARDUINO_ARCH_AVR;ESP_CH_UART;ESP_CH_UART_BR=19200;__cplusplus=201103L;_VMICRO_INTELLISENSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>__AVR_atmega328p__;__AVR_ATmega328P__;__AVR_ATmega328p__;_VMDEBUG=1;F_CPU=16000000L;ARDUINO=10805;ARDUINO_AVR_UNO_WIFI_DEV_ED;ARDUINO_ARCH_AVR;ESP_CH_UART;ESP_CH_UART_BR=19200;__cplusplus=201103L;_VMICRO_INTELLISENSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -116,11 +116,26 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AlarmManager.h" />
+    <ClInclude Include="enums.h" />
+    <ClInclude Include="GarageDoorManager.h" />
+    <ClInclude Include="MainController.h" />
     <ClInclude Include="NetworkManager.h" />
+    <ClInclude Include="NotificationManager.h" />
+    <ClInclude Include="StorageManager.h" />
+    <ClInclude Include="TemperatureManager.h" />
+    <ClInclude Include="TimeManager.h" />
     <ClInclude Include="__vm\.SafeGarage_Firmware.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AlarmManager.cpp" />
+    <ClCompile Include="GarageDoorManager.cpp" />
+    <ClCompile Include="MainController.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
+    <ClCompile Include="NotificationManager.cpp" />
+    <ClCompile Include="StorageManager.cpp" />
+    <ClCompile Include="TemperatureManager.cpp" />
+    <ClCompile Include="TimeManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
