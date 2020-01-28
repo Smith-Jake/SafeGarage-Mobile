@@ -13,7 +13,10 @@ namespace SafeGarage_Server.REST
     {
         public static async Task HandleRestCall(HttpContext context)
         {
-            string requestedFunc = context.Request.PathBase.Value.Substring(1);
+            string requestedFunc = context.Request.Path.Value;//.Substring(1);
+            Console.WriteLine($"\n\n\nFunction: {requestedFunc}\n\n\n");
+
+            if (requestedFunc.Length > 0) { requestedFunc = requestedFunc.Substring(1); }
 
             Type providerType = typeof(RESTProvider);
             var methods = providerType.GetMethods();

@@ -38,10 +38,12 @@ namespace SafeGarage_Server
                 {
                     if (context.WebSockets.IsWebSocketRequest)
                     {
+                        Console.WriteLine("\n\n\nWEB SOCKET\n\n\n");
                         await ControllerManager.HandleSocketConnection(context);
                     }
                     else
                     {
+                        Console.WriteLine("\n\n\nREST\n\n\n");
                         await RESTProvider.HandleRestCall(context);
                     }
                 } 
