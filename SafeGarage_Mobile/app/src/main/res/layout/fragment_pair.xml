@@ -6,8 +6,12 @@
 
     <Switch
         android:id="@+id/pair_switch"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layoutDirection="ltr"
+        android:switchPadding="8dp"
         android:text="@string/pair"
-        android:textOn="Paired" />
+        android:textOff="@string/unpaired"
+        android:textOn="@string/paired" />
 </ScrollView>
