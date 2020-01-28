@@ -7,4 +7,6 @@
     <string name="temperature_fragment">temperature fragment</string>
     <string name="set_closing_time">Set Closing Time</string>
     <string name="pair">Pair/Unpair</string>
+    <string name="temp_label">Temperature:</string>
+    <string name="temp_text">N/A</string>
 </resources>
