@@ -1,58 +1,26 @@
 ﻿using System;
-using Microsoft.AspNetCore.WebHooks;
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SafeGarage_Server_Upload
 {
-    public class GithubController : ControllerBase
+    [Route("api/[controller]")]
+    [ApiController]
+    public class GithubController
     {
-        [GitHubWebHook(EventName = "push", Id = "It")]
-        public IActionResult HandlerForItsPushes(string[] events, JObject data)
+        [HttpPost]
+        public string Github(WebhookRequest request)
         {
-            PrintDebug("HandlerForItsPushes");
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            
-            return Ok();
-        }
+            PrintDebug("Recieved");
 
-        [GitHubWebHook(EventName = "push")]
-        public IActionResult HandlerForPush(string id, JObject data)
-        {
-            PrintDebug("HandlerForPushes");
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            PrintDebug(
+                $"Ref:\t{request?.referance ?? "NULL"}\n" +
+                $"Name:\t{request?.pusher?.name ?? "NULL"}\n" +
+                $"Email:\t{request?.pusher?.email ?? "NULL"}"
+            );
 
-            return Ok();
-        }
-
-        [GitHubWebHook]
-        public IActionResult GitHubHandler(string id, string @event, JObject data)
-        {
-            PrintDebug("GitHubHandler");
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            return Ok();
-        }
-
-        [GeneralWebHook]
-        public IActionResult FallbackHandler(string receiverName, string id, string eventName)
-        {
-            PrintDebug("FallbackHandler");
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            return Ok();
+            return "";
         }
 
         private static void PrintDebug(string message)
