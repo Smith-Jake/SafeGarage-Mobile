@@ -14,4 +14,4 @@ jobs:
       with:
         dotnet-version: 2.2.108
     - name: Build with dotnet
-      run: dotnet build SafeGargage_Server --configuration Release
+      run: dotnet build SafeGarage_Server/SafeGarage_Server/SafeGargage_Server --configuration Release
