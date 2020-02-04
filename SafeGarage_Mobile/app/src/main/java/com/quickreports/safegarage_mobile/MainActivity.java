@@ -17,20 +17,19 @@ import android.widget.Switch;
 import com.quickreports.safegarage_mobile.fragments.AlarmFragment;
 import com.quickreports.safegarage_mobile.fragments.DoorFragment;
 import com.quickreports.safegarage_mobile.fragments.PairFragment;
-import com.quickreports.safegarage_mobile.fragments.TemperatureFragment;
 import com.quickreports.safegarage_mobile.fragments.TimeFragment;
 
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
 public class MainActivity extends AppCompatActivity implements PairFragment.OnPairFragmentInteractionListener,
-        DoorFragment.OnDoorFragmentInteractionListener, TemperatureFragment.OnTemperatureFragmentInteractionListener,
-        AlarmFragment.OnAlarmFragmentInteractionListener, TimeFragment.OnTimeFragmentInteractionListener {
+        DoorFragment.OnDoorFragmentInteractionListener, AlarmFragment.OnAlarmFragmentInteractionListener,
+        TimeFragment.OnTimeFragmentInteractionListener {
 
     /**
      * The number of top fragments
      */
-    private static final int NUM_FRAGMENTS = 4;
+    private static final int NUM_FRAGMENTS = 3;
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access
@@ -97,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
 
     private void initializeFragments() {
         setupDoorFragment();
+        setupAlarmFragment();
         if (setupPairFragment()) {
             Log.i(getClass().toString(), "Initializing fragments");
             // TODO get all the data from SafeGarage and set the respective fragments
@@ -112,14 +112,14 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
 
             // toggle from being paired to unpaired, and visa versa
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // if switch is set to paired, then re-initialize all the fragments
-                    Log.i(getClass().toString(), "Paired to SafeGarage");
-                } else {
-                    // TODO should we try to pair again?
-                    // if switch is set to unpaired, then ...
-                    Log.i(getClass().toString(), "Unpaired from SafeGarage");
-                }
+            if (isChecked) {
+                // if switch is set to paired, then re-initialize all the fragments
+                Log.i(getClass().toString(), "Paired to SafeGarage");
+            } else {
+                // TODO should we try to pair again?
+                // if switch is set to unpaired, then ...
+                Log.i(getClass().toString(), "Unpaired from SafeGarage");
+            }
             }
         });
 
@@ -132,6 +132,14 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
         garageDoorView.setBackgroundResource(R.drawable.garage_door_closing);
         GifDrawable garageDoorAnimation = (GifDrawable)garageDoorView.getBackground();
         garageDoorAnimation.stop();
+    }
+
+    private void setupAlarmFragment() {
+        Log.i(getClass().toString(), "Initializing Alarm Fragment");
+        final GifImageView alarmView = findViewById(R.id.alarm_view);
+//        alarmView.setBackgroundResource(R.drawable.both_alarm);
+//        GifDrawable alarmAnimation = (GifDrawable)alarmView.getBackground();
+//        alarmAnimation.stop();
     }
 
     /**
@@ -190,11 +198,6 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
     }
 
     @Override
-    public void onTemperatureFragmentInteraction(Uri uri) {
-
-    }
-
-    @Override
     public void onTimeFragmentInteraction(Uri uri) {
 
     }
@@ -212,12 +215,10 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return TimeFragment.newInstance();
-                case 1:
-                    return TemperatureFragment.newInstance();
-                case 2:
                     return PairFragment.newInstance();
-                case 3:
+                case 1:
+                    return TimeFragment.newInstance();
+                case 2:
                     return AlarmFragment.newInstance();
                     default:
                         return null;

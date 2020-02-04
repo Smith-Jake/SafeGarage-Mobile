@@ -8,7 +8,6 @@
     <string name="set_closing_time">Set Closing Time</string>
     <string name="pair">Pair/Unpair</string>
     <string name="temp_label">Temperature:</string>
-    <string name="temp_text">N/A</string>
     <string name="paired">Paired</string>
     <string name="unpaired">Unpaired</string>
 </resources>
