@@ -8,11 +8,11 @@
     android:layout_gravity="center">
 
     <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/openGarageDoor"
+        android:id="@+id/garage_door_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusable="auto"
         android:onClick="onGarageDoorClick"
-        app:srcCompat="@drawable/open_garage"
+        app:srcCompat="@drawable/garage_door_closing"
         tools:visibility="visible" />
 </RelativeLayout>

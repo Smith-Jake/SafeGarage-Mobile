@@ -2,7 +2,6 @@ package com.quickreports.safegarage_mobile;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
@@ -13,8 +12,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Switch;
 
 import com.quickreports.safegarage_mobile.fragments.AlarmFragment;
@@ -23,9 +20,8 @@ import com.quickreports.safegarage_mobile.fragments.PairFragment;
 import com.quickreports.safegarage_mobile.fragments.TemperatureFragment;
 import com.quickreports.safegarage_mobile.fragments.TimeFragment;
 
+import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
-
-import static com.quickreports.safegarage_mobile.fragments.TimeFragment.newInstance;
 
 public class MainActivity extends AppCompatActivity implements PairFragment.OnPairFragmentInteractionListener,
         DoorFragment.OnDoorFragmentInteractionListener, TemperatureFragment.OnTemperatureFragmentInteractionListener,
@@ -100,10 +96,7 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
     }
 
     private void initializeFragments() {
-        // For now, just set the garage door image to being open
-        final GifImageView garageDoorView = findViewById(R.id.openGarageDoor);
-        garageDoorView.setImageResource(R.drawable.open_garage);
-
+        setupDoorFragment();
         if (setupPairFragment()) {
             Log.i(getClass().toString(), "Initializing fragments");
             // TODO get all the data from SafeGarage and set the respective fragments
@@ -122,7 +115,6 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
                 if (isChecked) {
                     // if switch is set to paired, then re-initialize all the fragments
                     Log.i(getClass().toString(), "Paired to SafeGarage");
-                    initializeFragments();
                 } else {
                     // TODO should we try to pair again?
                     // if switch is set to unpaired, then ...
@@ -134,37 +126,52 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
         return pairUnpairSwitch.isChecked();
     }
 
+    private void setupDoorFragment() {
+        Log.i(getClass().toString(), "Initializing Garage Door Fragment");
+        final GifImageView garageDoorView = findViewById(R.id.garage_door_view);
+        garageDoorView.setBackgroundResource(R.drawable.garage_door_closing);
+        GifDrawable garageDoorAnimation = (GifDrawable)garageDoorView.getBackground();
+        garageDoorAnimation.stop();
+    }
+
     /**
      * Called when the user clicks the Garage Door image on the bottom of the screen.
      * @param view
      */
     public void onGarageDoorClick(View view) {
-        // Display the open or close garage door gif depending on the current state
-        switch (garageDoorState) {
-            // Garage Door was open, so display the closing gif, then the closed Garage Door image
-            case 1: {
-                // TODO display GIF for a few seconds
-                ((GifImageView) view).setImageResource(R.drawable.closed_garage);
-                garageDoorState = 2;
-                break;
+        final GifImageView garageDoorView = findViewById(R.id.garage_door_view);
+        GifDrawable garageDoorAnimation = (GifDrawable)garageDoorView.getBackground();
+
+        // Only allow the user to click the Garage Door if the gif is done playing
+        if (!garageDoorAnimation.isPlaying())
+        {
+            // Play the open or close garage door gif depending on the current state
+            switch (garageDoorState) {
+                // Garage Door was open, so display the closing gif
+                case 1: {
+                    garageDoorView.setBackgroundResource(R.drawable.garage_door_closing);
+                    garageDoorAnimation.start();
+                    garageDoorState = 2;
+                    break;
+                }
+                // Garage Door was closed, so display the opening gif
+                case 2: {
+                    garageDoorView.setBackgroundResource(R.drawable.garage_door_opening);
+                    garageDoorAnimation.start();
+                    garageDoorState = 1;
+                    break;
+                }
+                // Garage Door is transiting ... may not need this
+                case 3: {
+                    break;
+                }
+                default: {
+                    Log.e(getClass().toString(), "Unknown Garage Door State: " + garageDoorState);
+                }
             }
-            // Garage Door was closed, so display the opening gif, then the open Garage Door image
-            case 2: {
-                // TODO display GIF for a few seconds
-                ((GifImageView) view).setImageResource(R.drawable.open_garage);
-                garageDoorState = 1;
-                break;
-            }
-            // Garage Door is transiting ... may not need this
-            case 3: {
-                break;
-            }
-            default: {
-                Log.e(getClass().toString(), "Unknown Garage Door State: " + garageDoorState);
-            }
+            // tell the server to actually toggle the garage door state
+            server.toggleDoor();
         }
-        // tell the server to actually toggle the garage door state
-        server.toggleDoor();
     }
 
     @Override
