@@ -18,6 +18,7 @@ import com.quickreports.safegarage_mobile.fragments.AlarmFragment;
 import com.quickreports.safegarage_mobile.fragments.DoorFragment;
 import com.quickreports.safegarage_mobile.fragments.PairFragment;
 import com.quickreports.safegarage_mobile.fragments.TimeFragment;
+import com.quickreports.safegarage_mobile.models.GarageDoor;
 
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
      * Instance variables for the garage
      */
     // assume to be open until REST API is setup
-    private int garageDoorState = 1; // 1 = open, 2 = closed, 3 = transiting
+    private int garageDoorState = GarageDoor.OPEN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,21 +157,21 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
             // Play the open or close garage door gif depending on the current state
             switch (garageDoorState) {
                 // Garage Door was open, so display the closing gif
-                case 1: {
+                case GarageDoor.OPEN: {
                     garageDoorView.setBackgroundResource(R.drawable.garage_door_closing);
                     garageDoorAnimation.start();
                     garageDoorState = 2;
                     break;
                 }
                 // Garage Door was closed, so display the opening gif
-                case 2: {
+                case GarageDoor.CLOSED: {
                     garageDoorView.setBackgroundResource(R.drawable.garage_door_opening);
                     garageDoorAnimation.start();
                     garageDoorState = 1;
                     break;
                 }
                 // Garage Door is transiting ... may not need this
-                case 3: {
+                case GarageDoor.TRANSITIONING: {
                     break;
                 }
                 default: {
