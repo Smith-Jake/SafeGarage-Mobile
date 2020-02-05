@@ -8,10 +8,10 @@ namespace SafeGarage_Server_Upload
 {
     public class WebhookRequest
     {
-        [JsonProperty(PropertyName = "ref")]
-        public string referance;
+        [JsonProperty("ref")]
+        public string referance { get; set; }
 
-        [JsonProperty(propertyName: "pusher")]
-        public Pusher pusher;
+        [JsonProperty("pusher")]
+        public Pusher pusher { get; set; }
     }
 }

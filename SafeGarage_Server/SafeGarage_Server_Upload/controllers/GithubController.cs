@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace SafeGarage_Server_Upload
 {
@@ -14,11 +15,14 @@ namespace SafeGarage_Server_Upload
         {
             PrintDebug("Recieved");
 
-            PrintDebug(
-                $"Ref:\t{request?.referance ?? "NULL"}\n" +
-                $"Name:\t{request?.pusher?.name ?? "NULL"}\n" +
-                $"Email:\t{request?.pusher?.email ?? "NULL"}"
-            );
+            if (request == null) return "";
+
+            if (request.referance == "refs/heads/master")
+            {
+                Process p = new Process();
+                p.StartInfo.FileName = "upload.sh";
+                p.Start();
+            }
 
             return "";
         }
