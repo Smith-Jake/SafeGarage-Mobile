@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using System;
 
 namespace SafeGarage_Server_Upload
@@ -19,7 +20,7 @@ namespace SafeGarage_Server_Upload
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddMvc();
+                .AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

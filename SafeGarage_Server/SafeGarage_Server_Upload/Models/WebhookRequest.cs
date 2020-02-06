@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace SafeGarage_Server_Upload
 {
-    [JsonObject(MemberSerialization.OptOut)]
+    //[JsonObject(MemberSerialization.OptOut)]
     public class WebhookRequest
     {
-        private string myRef;
-        [JsonProperty(PropertyName = "ref")]
-        public string _ref { get { return myRef; } set { Console.WriteLine("Ref read"); myRef = value; } }
+        //JsonProperty(PropertyName = "ref")]
+        [JsonPropertyName("ref")]
+        public string _ref { get; set; }
         public string before { get; set; }
         public string after { get; set; }
         public Repository repository { get; set; }
@@ -26,7 +27,7 @@ namespace SafeGarage_Server_Upload
         public Head_Commit head_commit { get; set; }
     }
 
-    [JsonObject(MemberSerialization.OptOut)]
+    //[JsonObject(MemberSerialization.OptOut)]
     public class Repository
     {
         public int id { get; set; }
@@ -106,7 +107,7 @@ namespace SafeGarage_Server_Upload
         public string master_branch { get; set; }
     }
 
-    [JsonObject(MemberSerialization.OptOut)]
+    //[JsonObject(MemberSerialization.OptOut)]
     public class Owner
     {
         public string name { get; set; }
@@ -131,14 +132,14 @@ namespace SafeGarage_Server_Upload
         public bool site_admin { get; set; }
     }
 
-    [JsonObject(MemberSerialization.OptOut)]
+    //[JsonObject(MemberSerialization.OptOut)]
     public class Pusher
     {
         public string name { get; set; }
         public string email { get; set; }
     }
 
-    [JsonObject(MemberSerialization.OptOut)]
+    //[JsonObject(MemberSerialization.OptOut)]
     public class Sender
     {
         public string login { get; set; }
@@ -161,7 +162,7 @@ namespace SafeGarage_Server_Upload
         public bool site_admin { get; set; }
     }
 
-    [JsonObject(MemberSerialization.OptOut)]
+    //[JsonObject(MemberSerialization.OptOut)]
     public class Head_Commit
     {
         public string id { get; set; }
@@ -177,7 +178,7 @@ namespace SafeGarage_Server_Upload
         public string[] modified { get; set; }
     }
 
-    [JsonObject(MemberSerialization.OptOut)]
+    //[JsonObject(MemberSerialization.OptOut)]
     public class Author
     {
         public string name { get; set; }
@@ -185,7 +186,7 @@ namespace SafeGarage_Server_Upload
         public string username { get; set; }
     }
 
-    [JsonObject(MemberSerialization.OptOut)]
+    //[JsonObject(MemberSerialization.OptOut)]
     public class Committer
     {
         public string name { get; set; }
@@ -193,7 +194,7 @@ namespace SafeGarage_Server_Upload
         public string username { get; set; }
     }
 
-    [JsonObject(MemberSerialization.OptOut)]
+    //[JsonObject(MemberSerialization.OptOut)]
     public class Commit
     {
         public string id { get; set; }
