@@ -106,7 +106,6 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
 
     private void initializeFragments() {
         setupDoorFragment();
-        setupAlarmFragment();
         if (setupPairFragment()) {
             Log.i(getClass().toString(), "Initializing fragments");
             // TODO get all the data from SafeGarage and set the respective fragments
@@ -142,14 +141,6 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
         garageDoorView.setBackgroundResource(R.drawable.garage_door_closing);
         GifDrawable garageDoorAnimation = (GifDrawable)garageDoorView.getBackground();
         garageDoorAnimation.stop();
-    }
-
-    private void setupAlarmFragment() {
-        Log.i(getClass().toString(), "Initializing Alarm Fragment");
-        final GifImageView alarmView = findViewById(R.id.alarm_view);
-//        alarmView.setBackgroundResource(R.drawable.both_alarm);
-//        GifDrawable alarmAnimation = (GifDrawable)alarmView.getBackground();
-//        alarmAnimation.stop();
     }
 
     /**
