@@ -40,13 +40,14 @@
                 android:id="@+id/coDirections"
                 android:layout_width="match_parent"
                 android:layout_height="151dp"
-                android:text="CO Directions" />
+                android:text="@string/co_alarm_procedure" />
 
             <TextView
                 android:id="@+id/smokeDirections"
                 android:layout_width="match_parent"
                 android:layout_height="187dp"
-                android:text="Smoke Directions" />
+                android:singleLine="false"
+                android:text="@string/smoke_alarm_procedure" />
         </LinearLayout>
 
     </GridLayout>
