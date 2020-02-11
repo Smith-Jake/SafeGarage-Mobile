@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeGarage_Server", "SafeGarage_Server\SafeGarage_Server.csproj", "{74084EA1-4251-44C5-AFF0-918AC973CA98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SafeGarage_Server", "SafeGarage_Server\SafeGarage_Server.csproj", "{74084EA1-4251-44C5-AFF0-918AC973CA98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeGarage_Server_Upload", "SafeGarage_Server_Upload\SafeGarage_Server_Upload.csproj", "{171DAB9B-EEC3-4D9D-82F4-A1099344F432}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{74084EA1-4251-44C5-AFF0-918AC973CA98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74084EA1-4251-44C5-AFF0-918AC973CA98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74084EA1-4251-44C5-AFF0-918AC973CA98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{171DAB9B-EEC3-4D9D-82F4-A1099344F432}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{171DAB9B-EEC3-4D9D-82F4-A1099344F432}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{171DAB9B-EEC3-4D9D-82F4-A1099344F432}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{171DAB9B-EEC3-4D9D-82F4-A1099344F432}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
