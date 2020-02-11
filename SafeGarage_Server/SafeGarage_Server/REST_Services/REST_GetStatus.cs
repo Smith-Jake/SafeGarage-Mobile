@@ -9,17 +9,19 @@ namespace SafeGarage_Server.REST
 {
     public partial class RESTProvider
     {
-        [HttpGet("/getstatus")]
-        public static ControllerStatus GetStatus()
+        [HttpGet("GetStatus")]
+        public string GetStatus()
         {
+            Random rand = new Random();
+
             ControllerStatus result = new ControllerStatus();
             result.CloseTime = DateTime.Now;
-            result.CoAlarm = false;
-            result.DoorState = Enums.GarageState.CLOSED;
-            result.SmokeAlarm = false;
-            result.Temp = 70;
+            result.CoAlarm = rand.Next(0, 100) < 10;
+            result.DoorState = rand.Next(0, 100) < 50 ? Enums.GarageState.CLOSED : Enums.GarageState.OPEN;
+            result.SmokeAlarm = rand.Next(0, 100) < 10;
+            result.Temp = rand.Next(0, 100);
 
-            return result;
+            return result.ToString();
         }
     }
 }

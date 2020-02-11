@@ -7,14 +7,14 @@ using SafeGarage_Server.Models;
 
 namespace SafeGarage_Server.REST
 {
-    [HttpGet("/ToggleGargageDoor")]
     public partial class RESTProvider
     {
-        public static ToggleResult ToggleGarageDoor()
+        [HttpGet("/ToggleGarageDoor")]
+        public ToggleResult ToggleGarageDoor()
         {
             ToggleResult result = new ToggleResult();
 
-            result.DoorState = Enums.GarageState.CLOSED;
+            result.DoorState = Enums.GarageState.TRANSITIONING;
             result.Message = "";
             result.Success = true;
 

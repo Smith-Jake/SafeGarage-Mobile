@@ -10,12 +10,12 @@ namespace SafeGarage_Server.REST
     public partial class RESTProvider
     {
         [HttpGet("/SetCloseTime")]
-        public static SetTimeResult SetCloseTime([FromQuery]string closeTime)
+        public SetTimeResult SetCloseTime([FromQuery]string closeTime)
         {
             SetTimeResult result = new SetTimeResult();
 
             DateTime newTime;
-            bool success = DateTime.TryParse(closeTime, out newTime);
+            bool success = DateTime.TryParseExact(closeTime, "HH:mm", System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out newTime);
 
             result.Success = success;
             result.CloseTime = success ? newTime : DateTime.MinValue;

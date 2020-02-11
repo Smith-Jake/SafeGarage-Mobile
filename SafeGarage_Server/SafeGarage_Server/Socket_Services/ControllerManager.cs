@@ -16,7 +16,11 @@ namespace SafeGarage_Server.Socket
         public static async Task HandleSocketConnection(HttpContext context)
         {
             WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
-            await Echo(context, webSocket);
+            var controller = new SafeGarageController(webSocket);
+            var id = await controller.InitializeConnection();
+            controllers[id] = controller;
+
+            await controller.HandleConnection();
         }
 
         private static async Task Echo(HttpContext context, WebSocket webSocket)
