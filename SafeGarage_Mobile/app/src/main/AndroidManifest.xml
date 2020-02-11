@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.quickreports.safegarage_mobile">
 
-    <!-- Adding Internet permissions for Retrofit and firebase -- Nick -->
+    <!-- Adding Internet permissions for Retrofit and firebase - Nick -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
