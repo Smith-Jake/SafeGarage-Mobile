@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace SafeGarage_Server.REST
 {
+    [ApiController]
     public partial class RESTProvider
     {
         public static async Task HandleRestCall(HttpContext context)
