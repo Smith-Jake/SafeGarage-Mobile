@@ -1,4 +1,4 @@
-package com.quickreports.safegarage_mobile.fragments;
+package com.quickreports.safegarage_mobile.activity.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -53,13 +53,6 @@ public class PairFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_pair, container, false);
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onPairFragmentInteraction(uri);
-        }
     }
 
     @Override

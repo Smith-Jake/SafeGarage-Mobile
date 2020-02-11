@@ -1,4 +1,4 @@
-package com.quickreports.safegarage_mobile.fragments;
+package com.quickreports.safegarage_mobile.activity.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -16,15 +16,16 @@ import com.quickreports.safegarage_mobile.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link TimeFragment.OnTimeFragmentInteractionListener} interface
+ * {@link DoorFragment.OnDoorFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link TimeFragment#newInstance} factory method to
+ * Use the {@link DoorFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TimeFragment extends Fragment {
-    private OnTimeFragmentInteractionListener mListener;
+public class DoorFragment extends Fragment {
 
-    public TimeFragment() {
+    private OnDoorFragmentInteractionListener mListener;
+
+    public DoorFragment() {
         // Required empty public constructor
     }
 
@@ -32,10 +33,12 @@ public class TimeFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment TimeFragment.
+     * @return A new instance of fragment DoorFragment.
      */
-    public static TimeFragment newInstance() {
-        TimeFragment fragment = new TimeFragment();
+    public static DoorFragment newInstance() {
+        DoorFragment fragment = new DoorFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -48,14 +51,14 @@ public class TimeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_time, container, false);
+        return inflater.inflate(R.layout.fragment_door, container, false);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnTimeFragmentInteractionListener) {
-            mListener = (OnTimeFragmentInteractionListener) context;
+        if (context instanceof OnDoorFragmentInteractionListener) {
+            mListener = (OnDoorFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -78,8 +81,8 @@ public class TimeFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnTimeFragmentInteractionListener {
+    public interface OnDoorFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onTimeFragmentInteraction(Uri uri);
+        void onDoorFragmentInteraction(Uri uri);
     }
 }

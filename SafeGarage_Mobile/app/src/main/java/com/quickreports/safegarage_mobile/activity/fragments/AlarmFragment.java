@@ -1,4 +1,4 @@
-package com.quickreports.safegarage_mobile.fragments;
+package com.quickreports.safegarage_mobile.activity.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -6,11 +6,16 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.quickreports.safegarage_mobile.R;
+import com.quickreports.safegarage_mobile.models.Alarm;
+
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
 
 
 /**
@@ -23,9 +28,11 @@ import com.quickreports.safegarage_mobile.R;
  */
 public class AlarmFragment extends Fragment {
     private OnAlarmFragmentInteractionListener mListener;
+    private Alarm alarm;
 
     public AlarmFragment() {
-        // Required empty public constructor
+        // Create the Alarm -- assume the alarms to be not going off
+        alarm = new Alarm(false, false);
     }
 
     /**
@@ -48,13 +55,39 @@ public class AlarmFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_alarm, container, false);
+        View view = inflater.inflate(R.layout.fragment_alarm, container, false);
+
+        // Setup the Alarm GIF and text
+        initialize(view);
+
+        // Don't forget to return the View
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onAlarmFragmentInteraction(uri);
+    private void initialize(View view) {
+        Log.i(getClass().toString(), "Initializing Alarm Fragment");
+
+        final GifImageView alarmView = view.findViewById(R.id.alarm_view);
+        boolean isSmokeAlarming = alarm.isSmokeAlarming();
+        boolean isCoAlarming = alarm.isCoAlaraming();
+
+        // Determine which GIF to use and whether to set the Directions text
+        if (!(isSmokeAlarming || isCoAlarming)) { // both alarms are off
+            alarmView.setBackgroundResource(R.drawable.both_alarm);
+            GifDrawable alarmAnimation = (GifDrawable)alarmView.getBackground();
+            alarmAnimation.stop();
+        } else if (isSmokeAlarming && isCoAlarming) { // both alarms are on
+            alarmView.setBackgroundResource(R.drawable.both_alarm);
+            GifDrawable alarmAnimation = (GifDrawable)alarmView.getBackground();
+            alarmAnimation.start();
+        } else if (isSmokeAlarming) { // only smoke is on
+            alarmView.setBackgroundResource(R.drawable.smoke_alarm);
+            GifDrawable alarmAnimation = (GifDrawable)alarmView.getBackground();
+            alarmAnimation.start();
+        } else if (isCoAlarming) { // only CO is on
+            alarmView.setBackgroundResource(R.drawable.co_alarm);
+            GifDrawable alarmAnimation = (GifDrawable)alarmView.getBackground();
+            alarmAnimation.start();
         }
     }
 
