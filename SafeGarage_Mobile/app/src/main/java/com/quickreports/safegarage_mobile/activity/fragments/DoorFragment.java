@@ -1,4 +1,4 @@
-package com.quickreports.safegarage_mobile.fragments;
+package com.quickreports.safegarage_mobile.activity.fragments;
 
 import android.content.Context;
 import android.net.Uri;
