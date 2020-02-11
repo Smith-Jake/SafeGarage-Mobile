@@ -2,7 +2,6 @@ package com.quickreports.safegarage_mobile;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
@@ -11,25 +10,31 @@ import androidx.viewpager.widget.ViewPager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TimePicker;
 
 import com.quickreports.safegarage_mobile.fragments.AlarmFragment;
 import com.quickreports.safegarage_mobile.fragments.DoorFragment;
 import com.quickreports.safegarage_mobile.fragments.PairFragment;
-import com.quickreports.safegarage_mobile.fragments.TemperatureFragment;
 import com.quickreports.safegarage_mobile.fragments.TimeFragment;
+import com.quickreports.safegarage_mobile.models.GarageDoor;
 
-import static com.quickreports.safegarage_mobile.fragments.TimeFragment.newInstance;
+import java.util.concurrent.TimeoutException;
+
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
 
 public class MainActivity extends AppCompatActivity implements PairFragment.OnPairFragmentInteractionListener,
-        DoorFragment.OnDoorFragmentInteractionListener, TemperatureFragment.OnTemperatureFragmentInteractionListener,
-        AlarmFragment.OnAlarmFragmentInteractionListener, TimeFragment.OnTimeFragmentInteractionListener {
+        DoorFragment.OnDoorFragmentInteractionListener, AlarmFragment.OnAlarmFragmentInteractionListener,
+        TimeFragment.OnTimeFragmentInteractionListener {
 
     /**
      * The number of top fragments
      */
-    private static final int NUM_FRAGMENTS = 4;
+    private static final int NUM_FRAGMENTS = 3;
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access
@@ -41,6 +46,22 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
      * The pager adapter, which provides the pages to the view pager widget
      */
     private PagerAdapter pagerAdapter;
+
+    /**
+     * The BackEnd that will communicate to the server
+     */
+    private BackEnd server;
+
+    /**
+     * Instance variables for the garage
+     */
+    // assume to be open until REST API is setup
+    private int garageDoorState = GarageDoor.OPEN;
+
+    /**
+     * Fragments
+     */
+    TimeFragment timeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +97,15 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
             }
         });
 
+        // setup the server
+        server = new BackEnd();
+
         // set the data for all of the fragements
         initializeFragments();
     }
 
     private void initializeFragments() {
+        setupDoorFragment();
         if (setupPairFragment()) {
             Log.i(getClass().toString(), "Initializing fragments");
             // TODO get all the data from SafeGarage and set the respective fragments
@@ -96,19 +121,66 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
 
             // toggle from being paired to unpaired, and visa versa
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // if switch is set to paired, then re-initialize all the fragments
-                    Log.i(getClass().toString(), "Paired to SafeGarage");
-                    initializeFragments();
-                } else {
-                    // TODO should we try to pair again?
-                    // if switch is set to unpaired, then ...
-                    Log.i(getClass().toString(), "Unpaired from SafeGarage");
-                }
+            if (isChecked) {
+                // if switch is set to paired, then re-initialize all the fragments
+                Log.i(getClass().toString(), "Paired to SafeGarage");
+            } else {
+                // TODO should we try to pair again?
+                // if switch is set to unpaired, then ...
+                Log.i(getClass().toString(), "Unpaired from SafeGarage");
+            }
             }
         });
 
         return pairUnpairSwitch.isChecked();
+    }
+
+    private void setupDoorFragment() {
+        Log.i(getClass().toString(), "Initializing Garage Door Fragment");
+        final GifImageView garageDoorView = findViewById(R.id.garage_door_view);
+        garageDoorView.setBackgroundResource(R.drawable.garage_door_closing);
+        GifDrawable garageDoorAnimation = (GifDrawable)garageDoorView.getBackground();
+        garageDoorAnimation.stop();
+    }
+
+    /**
+     * Called when the user clicks the Garage Door image on the bottom of the screen.
+     * @param view
+     */
+    public void onGarageDoorClick(View view) {
+        final GifImageView garageDoorView = findViewById(R.id.garage_door_view);
+        GifDrawable garageDoorAnimation = (GifDrawable)garageDoorView.getBackground();
+
+        // Only allow the user to click the Garage Door if the gif is done playing
+        if (!garageDoorAnimation.isPlaying())
+        {
+            // Play the open or close garage door gif depending on the current state
+            switch (garageDoorState) {
+                // Garage Door was open, so display the closing gif
+                case GarageDoor.OPEN: {
+                    garageDoorView.setBackgroundResource(R.drawable.garage_door_closing);
+                    garageDoorAnimation.start();
+                    garageDoorState = 2;
+                    break;
+                }
+                // Garage Door was closed, so display the opening gif
+                case GarageDoor.CLOSED: {
+                    garageDoorView.setBackgroundResource(R.drawable.garage_door_opening);
+                    garageDoorAnimation.start();
+                    garageDoorState = 1;
+                    break;
+                }
+                // Garage Door is transiting ... may not need this
+                case GarageDoor.TRANSITIONING: {
+                    break;
+                }
+                default: {
+                    Log.e(getClass().toString(), "Unknown Garage Door State: " + garageDoorState);
+                }
+            }
+            // tell the server to actually toggle the garage door state
+            server.toggleDoor();
+        }
     }
 
     @Override
@@ -123,11 +195,6 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
 
     @Override
     public void onAlarmFragmentInteraction(Uri uri) {
-
-    }
-
-    @Override
-    public void onTemperatureFragmentInteraction(Uri uri) {
 
     }
 
@@ -149,12 +216,10 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return TimeFragment.newInstance();
-                case 1:
-                    return TemperatureFragment.newInstance();
-                case 2:
                     return PairFragment.newInstance();
-                case 3:
+                case 1:
+                    return TimeFragment.newInstance();
+                case 2:
                     return AlarmFragment.newInstance();
                     default:
                         return null;
