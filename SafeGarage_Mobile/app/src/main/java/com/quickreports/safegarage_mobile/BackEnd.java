@@ -30,5 +30,5 @@ public class BackEnd {
 	public void alarm(){}
 	
 	// Sets the automatic closing time of the garage door based on the time that the user picks within the app.
-	public void setClosingTime(){}
+	public void setClosingTime(String closingTime){}
 }

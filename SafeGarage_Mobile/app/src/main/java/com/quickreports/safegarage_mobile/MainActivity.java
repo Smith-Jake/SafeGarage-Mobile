@@ -11,14 +11,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TimePicker;
 
 import com.quickreports.safegarage_mobile.fragments.AlarmFragment;
 import com.quickreports.safegarage_mobile.fragments.DoorFragment;
 import com.quickreports.safegarage_mobile.fragments.PairFragment;
 import com.quickreports.safegarage_mobile.fragments.TimeFragment;
 import com.quickreports.safegarage_mobile.models.GarageDoor;
+
+import java.util.concurrent.TimeoutException;
 
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
@@ -53,6 +57,11 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
      */
     // assume to be open until REST API is setup
     private int garageDoorState = GarageDoor.OPEN;
+
+    /**
+     * Fragments
+     */
+    TimeFragment timeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +106,6 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
 
     private void initializeFragments() {
         setupDoorFragment();
-        setupAlarmFragment();
         if (setupPairFragment()) {
             Log.i(getClass().toString(), "Initializing fragments");
             // TODO get all the data from SafeGarage and set the respective fragments
@@ -133,14 +141,6 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
         garageDoorView.setBackgroundResource(R.drawable.garage_door_closing);
         GifDrawable garageDoorAnimation = (GifDrawable)garageDoorView.getBackground();
         garageDoorAnimation.stop();
-    }
-
-    private void setupAlarmFragment() {
-        Log.i(getClass().toString(), "Initializing Alarm Fragment");
-        final GifImageView alarmView = findViewById(R.id.alarm_view);
-//        alarmView.setBackgroundResource(R.drawable.both_alarm);
-//        GifDrawable alarmAnimation = (GifDrawable)alarmView.getBackground();
-//        alarmAnimation.stop();
     }
 
     /**
