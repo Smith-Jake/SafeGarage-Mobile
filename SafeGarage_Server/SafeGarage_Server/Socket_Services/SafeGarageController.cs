@@ -34,16 +34,26 @@ namespace SafeGarage_Server.Socket
         public async Task<string> InitializeConnection()
         {
             var buffer = new byte[1024 * 4];
+
+
             WebSocketReceiveResult result = await socket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
             while (!result.CloseStatus.HasValue)
             {
-                await socket.SendAsync(new ArraySegment<byte>(buffer, 0, result.Count), result.MessageType, result.EndOfMessage, CancellationToken.None);
-
+                //await socket.SendAsync(new ArraySegment<byte>(buffer, 0, result.Count), result.MessageType, result.EndOfMessage, CancellationToken.None);
+                await SendMessage("Hello");
                 result = await socket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
             }
             await socket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
 
             return "";
+        }
+
+        public async Task SendMessage(string message)
+        {
+            var buffer = new byte[1024 * 4];
+
+            
+            await socket.SendAsync(new ArraySegment<byte>(buffer, 0, message.Length), WebSocketMessageType.Text, true, CancellationToken.None);
         }
     }
 }
