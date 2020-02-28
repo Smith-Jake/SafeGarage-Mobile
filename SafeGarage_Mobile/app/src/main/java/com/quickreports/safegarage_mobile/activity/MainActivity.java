@@ -21,9 +21,15 @@ import com.quickreports.safegarage_mobile.activity.fragments.DoorFragment;
 import com.quickreports.safegarage_mobile.activity.fragments.PairFragment;
 import com.quickreports.safegarage_mobile.activity.fragments.TimeFragment;
 import com.quickreports.safegarage_mobile.models.GarageDoor;
+import com.quickreports.safegarage_mobile.models.StatusResponse;
+import com.quickreports.safegarage_mobile.rest.ApiService;
+import com.quickreports.safegarage_mobile.rest.interfaces.apiError;
+import com.quickreports.safegarage_mobile.rest.interfaces.apiSuccess;
 
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements PairFragment.OnPairFragmentInteractionListener,
         DoorFragment.OnDoorFragmentInteractionListener, AlarmFragment.OnAlarmFragmentInteractionListener,
@@ -46,14 +52,19 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
     private PagerAdapter pagerAdapter;
 
     /**
-     * The BackEnd that will communicate to the server
-     */
-    private BackEnd server;
-
-    /**
      * Instance variables for the garage
      */
     // assume to be open until REST API is setup
+
+
+    // Server Back and forth setup
+    public StatusResponse packet;
+    public BackEnd server = new BackEnd();
+
+
+
+
+
     private int garageDoorState = GarageDoor.OPEN;
 
     /**
@@ -70,6 +81,23 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
         viewPager = findViewById(R.id.pager);
         pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
+
+        server.retrofitSetup();
+
+        server.getStatus(new apiError(){
+               @Override
+                public void run(String error) {
+
+                }
+            }, new apiSuccess(){
+                @Override
+                public void run(StatusResponse input) {
+                    packet = input;
+                    //Log.println(Log.DEBUG, "io", input.co.);
+                }
+            });
+
+
 
         // set the view pager's OnPageChangeListener, so it can
         // swap out the top fragment for the previous/next fragment
@@ -95,8 +123,6 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
             }
         });
 
-        // setup the server
-        server = new BackEnd();
 
         // set the data for all of the fragements
         initializeFragments();
