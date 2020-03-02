@@ -17,7 +17,9 @@ namespace SafeGarage_Server.Socket
         {
             WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
             var controller = new SafeGarageController(webSocket);
+
             var id = await controller.InitializeConnection();
+            if (id == "") return;
             controllers[id] = controller;
 
             await controller.HandleConnection();
