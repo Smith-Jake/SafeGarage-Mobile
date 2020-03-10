@@ -10,17 +10,17 @@ namespace SafeGarage_Server.REST
     public partial class RESTProvider
     {
         [HttpGet("/ToggleGarageDoor")]
-        public ToggleResult ToggleGarageDoor()
+        public string ToggleGarageDoor()
         {
             ToggleResult result = new ToggleResult();
 
-            state = state == Enums.GarageState.OPEN ? Enums.GarageState.OPEN : Enums.GarageState.CLOSED;
+            state = state == Enums.GarageState.OPEN ? Enums.GarageState.CLOSED : Enums.GarageState.OPEN;
 
             result.DoorState = Enums.GarageState.TRANSITIONING;
             result.Message = "";
             result.Success = true;
 
-            return result;
+            return result.ToString();
         }
     }
 }
