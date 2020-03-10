@@ -3,7 +3,14 @@
 @model IndexModel
 @{
     <h1>Endpoints</h1>
-    <a href="/GetStatus">/GetStatus</a><br />
-    <a href="/SetCloseTime">/SetCloseTime</a><br />
-    <a href="/ToggleGarageDoor">/ToggleGarageDoor</a><br />
+    <form action="/GetStatus">
+        <input type="submit" value="/GetStatus" />
+    </form>
+    <form action="/ToggleGarageDoor">
+        <input type="submit" value="/ToggleGarageDoor" />
+    </form>
+    <form action="/SetCloseTime">
+        <input type="submit" value="/SetCloseTime" />
+        Close Time:<input type="text" name="closeTime" />
+    </form>
 }

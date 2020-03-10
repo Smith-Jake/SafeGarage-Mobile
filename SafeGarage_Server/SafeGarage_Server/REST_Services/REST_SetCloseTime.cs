@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SafeGarage_Server.Models;
 
 namespace SafeGarage_Server.REST
@@ -10,7 +11,7 @@ namespace SafeGarage_Server.REST
     public partial class RESTProvider
     {
         [HttpGet("/SetCloseTime")]
-        public SetTimeResult SetCloseTime([FromQuery]string closeTime)
+        public string SetCloseTime([FromQuery]string closeTime)
         {
             SetTimeResult result = new SetTimeResult();
 
@@ -24,7 +25,7 @@ namespace SafeGarage_Server.REST
             }
             result.CloseTime = time;
 
-            return result;
+            return result.ToString();
         }
     }
 }
