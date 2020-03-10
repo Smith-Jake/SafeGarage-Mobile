@@ -18,7 +18,11 @@ namespace SafeGarage_Server.REST
             bool success = DateTime.TryParseExact(closeTime, "HH:mm", System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out newTime);
 
             result.Success = success;
-            result.CloseTime = success ? newTime : DateTime.MinValue;
+            if (success)
+            {
+                time = newTime;
+            }
+            result.CloseTime = time;
 
             return result;
         }
