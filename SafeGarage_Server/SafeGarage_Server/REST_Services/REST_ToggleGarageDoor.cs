@@ -14,6 +14,8 @@ namespace SafeGarage_Server.REST
         {
             ToggleResult result = new ToggleResult();
 
+            state = state == Enums.GarageState.OPEN ? Enums.GarageState.OPEN : Enums.GarageState.CLOSED;
+
             result.DoorState = Enums.GarageState.TRANSITIONING;
             result.Message = "";
             result.Success = true;
