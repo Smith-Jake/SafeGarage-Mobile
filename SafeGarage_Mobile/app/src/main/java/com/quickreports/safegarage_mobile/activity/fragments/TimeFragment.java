@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TimePicker;
 
-import com.quickreports.safegarage_mobile.BackEnd;
 import com.quickreports.safegarage_mobile.R;
 import com.quickreports.safegarage_mobile.Utility;
 
@@ -29,7 +28,6 @@ import com.quickreports.safegarage_mobile.Utility;
 public class TimeFragment extends Fragment {
 
     private OnTimeFragmentInteractionListener mListener;
-    private BackEnd server;
     private TimePicker closingTimePicker;
     private Button closingTimeButton;
 
@@ -59,10 +57,9 @@ public class TimeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_time, container, false);
 
-        // Get the Closing Time Picker and Button, and Server
+        // Get the Closing Time Picker and Button
         closingTimePicker = view.findViewById(R.id.closingTimePicker);
         closingTimeButton = view.findViewById(R.id.closingTimeButton);
-        server = new BackEnd();
 
         // Setup the Closing Time Picker's onTimeChanged event to handle the enabling the
         // Set Closing Time button
@@ -85,8 +82,7 @@ public class TimeFragment extends Fragment {
                 String closingTime = Utility.closingTimeToString(hour, minute);
                 Log.i(getClass().toString(), "Setting Closing Time to: " + closingTime);
 
-                // Tell the Server to actually set the closing time
-                server.setClosingTime(closingTime);
+                // TODO: Tell the Server to actually set the closing time
 
                 // Disable the Closing Time button
                 closingTimeButton.setEnabled(false);

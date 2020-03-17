@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.quickreports.safegarage_mobile.BackEnd;
 import com.quickreports.safegarage_mobile.R;
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
                 @Override
                 public void run(StatusResponse input) {
                     packet = input;
-                    //Log.println(Log.DEBUG, "io", input.co.);
+                    setupTimeFragment(packet.close_time);
                 }
             });
 
@@ -157,6 +158,17 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
         });
 
         return pairUnpairSwitch.isChecked();
+    }
+
+    private void setupTimeFragment(String closingTime) {
+        TextView closingTimeTextView = findViewById(R.id.closingTimeTextView);
+        CharSequence label = closingTimeTextView.getText();
+
+        // 24:00 means that the closing time is not set
+        if (closingTime.equals("24:00"))
+            closingTimeTextView.setText(label + " Not Set");
+        else
+            closingTimeTextView.setText(label + " " + closingTime);
     }
 
     private void setupDoorFragment() {
