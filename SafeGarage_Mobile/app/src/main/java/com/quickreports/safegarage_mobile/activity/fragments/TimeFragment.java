@@ -11,6 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.quickreports.safegarage_mobile.R;
@@ -30,6 +33,7 @@ public class TimeFragment extends Fragment {
     private OnTimeFragmentInteractionListener mListener;
     private TimePicker closingTimePicker;
     private Button closingTimeButton;
+    private Switch closingTimeSwitch;
 
     public TimeFragment() {
         // Required empty public constructor
@@ -57,18 +61,17 @@ public class TimeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_time, container, false);
 
-        // Get the Closing Time Picker and Button
+        // Get the Closing Time Picker, Button, and Switch
         closingTimePicker = view.findViewById(R.id.closingTimePicker);
         closingTimeButton = view.findViewById(R.id.closingTimeButton);
+        closingTimeSwitch = view.findViewById(R.id.closeTimeSwitch);
 
-        // Setup the Closing Time Picker's onTimeChanged event to handle the enabling the
-        // Set Closing Time button
-        closingTimePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-            @Override
-            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                closingTimeButton.setEnabled(true);
-            }
+
+        // Setup the Closing Time switch's onChecked event
+        closingTimeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            closingTimeButton.setEnabled(isChecked);
         });
+
 
         // Setup the Set Closing Time button's onClick event
         closingTimeButton.setOnClickListener(new Button.OnClickListener() {
@@ -85,7 +88,6 @@ public class TimeFragment extends Fragment {
                 // TODO: Tell the Server to actually set the closing time
 
                 // Disable the Closing Time button
-                closingTimeButton.setEnabled(false);
             }
         });
 

@@ -161,14 +161,18 @@ public class MainActivity extends AppCompatActivity implements PairFragment.OnPa
     }
 
     private void setupTimeFragment(String closingTime) {
-        TextView closingTimeTextView = findViewById(R.id.closingTimeTextView);
-        CharSequence label = closingTimeTextView.getText();
+        TextView closingTimeTextView = findViewById(R.id.closeTimeData);
+        Switch closingTimeSwitch = findViewById(R.id.closeTimeSwitch);
 
         // 24:00 means that the closing time is not set
-        if (closingTime.equals("24:00"))
-            closingTimeTextView.setText(label + " Not Set");
-        else
-            closingTimeTextView.setText(label + " " + closingTime);
+        if (closingTime.equals("24:00")) {
+            closingTimeTextView.setText("Not Set");
+            closingTimeSwitch.setChecked(false);
+        }
+        else {
+            closingTimeTextView.setText(closingTime);
+            closingTimeSwitch.setChecked(true);
+        }
     }
 
     private void setupDoorFragment() {

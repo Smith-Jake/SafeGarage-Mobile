@@ -12,5 +12,5 @@
     <string name="unpaired">Unpaired</string>
     <string name="smoke_alarm_procedure">Smoke Directions:\n&#8226; If there is a fire, evacuate the building and call the fire department.\n&#8226; If there is not a fire, open the doors and windows.</string>
     <string name="co_alarm_procedure">CO Directions:\n1. DO NOT ENTER GARAGE\n2. Evacuate the building\n3. Move to fresh air\n4. Call the fire department</string>
-    <string name="closing_time">Closing Time:</string>
+    <string name="closing_time">Closing Time :\u0020</string>
 </resources>
