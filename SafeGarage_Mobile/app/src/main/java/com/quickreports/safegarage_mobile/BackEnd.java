@@ -24,60 +24,113 @@ public class BackEnd {
 //	FirebaseDatabase database = FirebaseDatabase.getInstance();
 
 
+    public static final String BASE_URL = "https://sg.milligan.dev/";
 
+    public static Retrofit retroFit = null;
 
-	public static final String BASE_URL = "https://sg.milligan.dev/";
+    private static ApiService apiService;
 
-	public static Retrofit retroFit = null;
+    // This method creates an instance of Retrofit - Nick
+    public static void retrofitSetup() {
 
-	private ApiService apiService;
+        if (retroFit == null) {
+            retroFit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .build();
+            apiService = retroFit.create(ApiService.class);
+        }
+    }
 
-	// This method creates an instance of Retrofit - Nick
-	public void retrofitSetup(){
+    // Method replaces messageReceived() - Nick 2/27/2020
+    public static void getStatus(final apiError err, final apiSuccess success) {
+        final Single<StatusResponse> status = apiService.getStatus();
+        status
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<StatusResponse>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-		if(retroFit == null)
-		{
-			retroFit = new Retrofit.Builder()
-					.baseUrl(BASE_URL)
-					.addConverterFactory(GsonConverterFactory.create())
-					.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-					.build();
-			apiService = retroFit.create(ApiService.class);
-		}
-	}
+                    }
 
-	// Method replaces messageReceived() - Nick 2/27/2020
-	public void getStatus(final apiError err , final apiSuccess success){
-		final Single<StatusResponse> status = apiService.getStatus();
-		status
-				.subscribeOn(Schedulers.io())
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new SingleObserver<StatusResponse>() {
-					@Override
-					public void onSubscribe(Disposable d) {
+                    @Override
+                    public void onSuccess(StatusResponse statusResponse) {
+                        if (success == null) {
+                            return;
+                        }
+                        success.run(statusResponse);
+                    }
 
-					}
+                    @Override
+                    public void onError(Throwable e) {
+                        if (err == null) {
+                            return;
+                        }
+                        err.run(e.getMessage());
+                    }
+                });
+    }
 
-					@Override
-					public void onSuccess(StatusResponse statusResponse) {
-						if(success == null)
-						{return;}
-						success.run(statusResponse);
-					}
+    /* Toggles the door to either open or close based on the remote, will return a boolean and report whether or not the
+    door was successfully closed when attempted. */
+    public static void toggleDoor(final apiError err, final apiSuccess success) {
+        final Single<StatusResponse> status = apiService.toggleDoor();
+        status
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<StatusResponse>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-					@Override
-					public void onError(Throwable e) {
-						if(err == null)
-						{return;}
-						err.run(e.getMessage());
-					}
-				});
-	}
-	
-	/* Toggles the door to either open or close based on the remote, will return a boolean and report whether or not the 
-	door was successfully closed when attempted. */
-	public void toggleDoor(){}
-	
-	// Sets the automatic closing time of the garage door based on the time that the user picks within the app.
-	public void setClosingTime(String closingTime){}
+                    }
+
+                    @Override
+                    public void onSuccess(StatusResponse statusResponse) {
+                        if (success == null) {
+                            return;
+                        }
+                        success.run(statusResponse);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (err == null) {
+                            return;
+                        }
+                        err.run(e.getMessage());
+                    }
+                });
+    }
+
+    // Sets the automatic closing time of the garage door based on the time that the user picks within the app.
+    public static void setClosingTime(final apiError err, final apiSuccess success, String closingTime) {
+        final Single<StatusResponse> status = apiService.setClosingTime(closingTime);
+        status
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new SingleObserver<StatusResponse>() {
+                @Override
+                public void onSubscribe(Disposable d) {
+
+                }
+
+                @Override
+                public void onSuccess(StatusResponse statusResponse) {
+                    if (success == null) {
+                        return;
+                    }
+                    success.run(statusResponse);
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    if (err == null) {
+                        return;
+                    }
+                    err.run(e.getMessage());
+                }
+            });
+    }
 }

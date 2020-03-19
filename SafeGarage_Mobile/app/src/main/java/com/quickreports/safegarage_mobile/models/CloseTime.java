@@ -1,6 +1,7 @@
-package com.quickreports.safegarage_mobile;
+package com.quickreports.safegarage_mobile.models;
 
-public class Utility {
+public class CloseTime {
+    public static String time;
 
     /**
      * Converts Integer values of hour and minute into a human-readable string

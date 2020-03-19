@@ -6,9 +6,12 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import com.quickreports.safegarage_mobile.R;
 
@@ -52,7 +55,30 @@ public class PairFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pair, container, false);
+        View view = inflater.inflate(R.layout.fragment_pair, container, false);
+
+        setupPairFragment(view);
+
+        return view;
+    }
+
+    private void setupPairFragment(View view) {
+        // set the onCheckChanged event to the Switch
+        final Switch pairUnpairSwitch = view.findViewById(R.id.pair_switch);
+        pairUnpairSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            // toggle from being paired to unpaired, and visa versa
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // if switch is set to paired, then re-initialize all the fragments
+                    Log.i(getClass().toString(), "Paired to SafeGarage");
+                } else {
+                    // TODO should we try to pair again?
+                    // if switch is set to unpaired, then ...
+                    Log.i(getClass().toString(), "Unpaired from SafeGarage");
+                }
+            }
+        });
     }
 
     @Override

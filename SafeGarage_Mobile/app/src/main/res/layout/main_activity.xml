@@ -19,18 +19,14 @@
             android:layout_height="fill_parent">
         </androidx.viewpager.widget.ViewPager>
 
-        <fragment
-            android:id="@+id/pair_fragment"
-            class="com.quickreports.safegarage_mobile.activity.fragments.PairFragment"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
-
     </LinearLayout>
 
-    <fragment
-        android:id="@+id/door_fragment"
-        class="com.quickreports.safegarage_mobile.activity.fragments.DoorFragment"
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/garage_door_view"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
+        android:focusable="auto"
+        android:onClick="onGarageDoorClick"
         android:layout_weight="50"/>
+
 </LinearLayout>
