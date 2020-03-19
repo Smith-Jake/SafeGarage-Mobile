@@ -1,5 +1,6 @@
 package com.quickreports.safegarage_mobile.rest;
 import io.reactivex.Single;
+import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -12,11 +13,11 @@ public interface ApiService {
 
     /* Toggles the door to either open or close based on the remote, will return a boolean and report whether or not the
     door was successfully closed when attempted. */
-    @GET ("toggleDoor")
+    @GET ("toggleGarageDoor")
     Single<StatusResponse> toggleDoor();
 
     // Sets the automatic closing time of the garage door based on the time that the user picks within the app.
-    @GET ("setClosingTime")
-    Single<StatusResponse> setClosingTime(@Query("/closeTime") String closingTime);
+    @GET ("setCloseTime")
+    Single<StatusResponse> setClosingTime(@Query("closeTime") String closingTime);
 }
 

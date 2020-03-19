@@ -22,6 +22,5 @@ public class StatusResponse {
 
     @Expose
     @SerializedName("temp")
-    public double temp ;
-
+    public double temp;
 }

@@ -11,12 +11,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.quickreports.safegarage_mobile.BackEnd;
 import com.quickreports.safegarage_mobile.R;
-import com.quickreports.safegarage_mobile.Utility;
-
+import com.quickreports.safegarage_mobile.activity.MainActivity;
+import com.quickreports.safegarage_mobile.models.CloseTime;
+import com.quickreports.safegarage_mobile.models.StatusResponse;
+import com.quickreports.safegarage_mobile.rest.interfaces.apiError;
+import com.quickreports.safegarage_mobile.rest.interfaces.apiSuccess;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,9 +34,7 @@ import com.quickreports.safegarage_mobile.Utility;
 public class TimeFragment extends Fragment {
 
     private OnTimeFragmentInteractionListener mListener;
-    private BackEnd server;
-    private TimePicker closingTimePicker;
-    private Button closingTimeButton;
+    private View view;
 
     public TimeFragment() {
         // Required empty public constructor
@@ -57,21 +60,46 @@ public class TimeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_time, container, false);
+        view = inflater.inflate(R.layout.fragment_time, container, false);
 
-        // Get the Closing Time Picker and Button, and Server
-        closingTimePicker = view.findViewById(R.id.closingTimePicker);
-        closingTimeButton = view.findViewById(R.id.closingTimeButton);
-        server = new BackEnd();
+        // Get the Closing Time Picker, Button, and Switch
+//        setupTimeFragment(view);
 
-        // Setup the Closing Time Picker's onTimeChanged event to handle the enabling the
-        // Set Closing Time button
-        closingTimePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-            @Override
-            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                closingTimeButton.setEnabled(true);
+        // Don't forget to return the view
+        return view;
+    }
+
+    public void setupTimeFragment() {
+        Log.i(getClass().toString(), "Initializing Time Fragment");
+
+        TextView closingTimeTextView = view.findViewById(R.id.closeTimeData);
+        Switch closingTimeSwitch = view.findViewById(R.id.closeTimeSwitch);
+        TimePicker closingTimePicker = view.findViewById(R.id.closingTimePicker);
+        Button closingTimeButton = view.findViewById(R.id.closingTimeButton);
+
+        // Setup the Closing Time switch's onChecked event
+        closingTimeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            closingTimeButton.setEnabled(isChecked);
+
+            if (!isChecked) {
+                // TODO: Tell the Server to NOT set a closing time
+                BackEnd.setClosingTime(new apiError(){
+                    @Override
+                    public void run(String error) {
+
+                    }
+                }, new apiSuccess(){
+                    @Override
+                    public void run(StatusResponse input) {
+                        CloseTime.time = "Not Set";
+                        closingTimeTextView.setText(CloseTime.time);
+                        Log.i(getClass().toString(), "Disabling Automatic Closing Time");
+                    }
+                }, "24:00");
             }
+
         });
+
 
         // Setup the Set Closing Time button's onClick event
         closingTimeButton.setOnClickListener(new Button.OnClickListener() {
@@ -82,19 +110,36 @@ public class TimeFragment extends Fragment {
                 int minute = closingTimePicker.getMinute();
 
                 // Convert the Hour and Minute to a human-readable String
-                String closingTime = Utility.closingTimeToString(hour, minute);
-                Log.i(getClass().toString(), "Setting Closing Time to: " + closingTime);
+                String closingTime = CloseTime.closingTimeToString(hour, minute);
 
-                // Tell the Server to actually set the closing time
-                server.setClosingTime(closingTime);
+                // TODO: Tell the Server to actually set the closing time
+                BackEnd.setClosingTime(new apiError(){
+                    @Override
+                    public void run(String error) {
 
-                // Disable the Closing Time button
-                closingTimeButton.setEnabled(false);
+                    }
+                }, new apiSuccess(){
+                    @Override
+                    public void run(StatusResponse input) {
+                        CloseTime.time = closingTime;
+                        closingTimeTextView.setText(CloseTime.time);
+                        Log.i(getClass().toString(), "Setting Closing Time to: " + CloseTime.time);
+                    }
+                }, closingTime);
             }
         });
 
-        // Don't forget to return the view
-        return view;
+        // 24:00 means that the closing time is not set
+        if (CloseTime.time.equals("24:00")) {
+            closingTimeTextView.setText("Not Set");
+            closingTimeSwitch.setChecked(false);
+        }
+        else {
+            closingTimeTextView.setText(CloseTime.time);
+            closingTimeSwitch.setChecked(true);
+        }
+
+        Log.i(getClass().toString(), "Setting Closing Time to: " + CloseTime.time);
     }
 
     @Override

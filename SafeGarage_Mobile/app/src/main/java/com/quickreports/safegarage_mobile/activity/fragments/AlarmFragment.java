@@ -10,9 +10,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.quickreports.safegarage_mobile.R;
 import com.quickreports.safegarage_mobile.models.Alarm;
+import com.quickreports.safegarage_mobile.models.Temperature;
 
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
@@ -28,11 +30,8 @@ import pl.droidsonroids.gif.GifImageView;
  */
 public class AlarmFragment extends Fragment {
     private OnAlarmFragmentInteractionListener mListener;
-    private Alarm alarm;
 
     public AlarmFragment() {
-        // Create the Alarm -- assume the alarms to be not going off
-        alarm = new Alarm(false, false);
     }
 
     /**
@@ -57,38 +56,10 @@ public class AlarmFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_alarm, container, false);
 
-        // Setup the Alarm GIF and text
-        initialize(view);
+        setupAlarmFragment(view);
 
         // Don't forget to return the View
         return view;
-    }
-
-    private void initialize(View view) {
-        Log.i(getClass().toString(), "Initializing Alarm Fragment");
-
-        final GifImageView alarmView = view.findViewById(R.id.alarm_view);
-        boolean isSmokeAlarming = alarm.isSmokeAlarming();
-        boolean isCoAlarming = alarm.isCoAlaraming();
-
-        // Determine which GIF to use and whether to set the Directions text
-        if (!(isSmokeAlarming || isCoAlarming)) { // both alarms are off
-            alarmView.setBackgroundResource(R.drawable.both_alarm);
-            GifDrawable alarmAnimation = (GifDrawable)alarmView.getBackground();
-            alarmAnimation.stop();
-        } else if (isSmokeAlarming && isCoAlarming) { // both alarms are on
-            alarmView.setBackgroundResource(R.drawable.both_alarm);
-            GifDrawable alarmAnimation = (GifDrawable)alarmView.getBackground();
-            alarmAnimation.start();
-        } else if (isSmokeAlarming) { // only smoke is on
-            alarmView.setBackgroundResource(R.drawable.smoke_alarm);
-            GifDrawable alarmAnimation = (GifDrawable)alarmView.getBackground();
-            alarmAnimation.start();
-        } else if (isCoAlarming) { // only CO is on
-            alarmView.setBackgroundResource(R.drawable.co_alarm);
-            GifDrawable alarmAnimation = (GifDrawable)alarmView.getBackground();
-            alarmAnimation.start();
-        }
     }
 
     @Override
@@ -106,6 +77,40 @@ public class AlarmFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    private void setupAlarmFragment(View view) {
+        Log.i(getClass().toString(), "Initializing Alarm Fragment");
+
+        // get the Alarm Gif
+        final GifImageView alarmView = view.findViewById(R.id.alarm_gif);
+
+        // Determine which GIF to use and whether to set the Directions text
+        if (!(Alarm.isSmokeAlarming || Alarm.isCoAlaraming)) { // both alarms are off
+            alarmView.setBackgroundResource(R.drawable.both_alarm);
+            GifDrawable alarmAnimation = (GifDrawable)alarmView.getBackground();
+            alarmAnimation.stop();
+        } else if (Alarm.isSmokeAlarming && Alarm.isCoAlaraming) { // both alarms are on
+            alarmView.setBackgroundResource(R.drawable.both_alarm);
+            GifDrawable alarmAnimation = (GifDrawable)alarmView.getBackground();
+            alarmAnimation.start();
+        } else if (Alarm.isSmokeAlarming) { // only smoke is on
+            alarmView.setBackgroundResource(R.drawable.smoke_alarm);
+            GifDrawable alarmAnimation = (GifDrawable)alarmView.getBackground();
+            alarmAnimation.start();
+        } else if (Alarm.isCoAlaraming) { // only CO is on
+            alarmView.setBackgroundResource(R.drawable.co_alarm);
+            GifDrawable alarmAnimation = (GifDrawable)alarmView.getBackground();
+            alarmAnimation.start();
+        }
+
+        // set temperature
+        TextView temperatureData = view.findViewById(R.id.tempLabel);
+        temperatureData.setText(Double.toString(Temperature.temperature));
+
+        Log.i(getClass().toString(), "Setting CO Alarm to: " + Alarm.isCoAlaraming);
+        Log.i(getClass().toString(), "Setting Smoke Alarm to: " + Alarm.isSmokeAlarming);
+        Log.i(getClass().toString(), "Setting Temperature to: " + Temperature.temperature);
     }
 
     /**
